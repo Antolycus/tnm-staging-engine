@@ -1,0 +1,176 @@
+{
+  "cancer_type": "Colorectal Carcinoma",
+  "applicability": {
+    "applies_to": [
+      {"histology": "Adenocarcinoma", "notes": "Includes mucinous and signet-ring cell subtypes."},
+      {"histology": "Squamous cell carcinoma of the colon/rectum", "notes": "Primary colorectal squamous cell carcinoma, not anal canal squamous cell carcinoma."},
+      {"histology": "High-grade neuroendocrine carcinoma (colon/rectum)", "notes": "Small cell and large cell neuroendocrine carcinoma; staged using this colorectal carcinoma system per AJCC 8th."},
+      {"histology": "Adenosquamous carcinoma"},
+      {"histology": "Undifferentiated carcinoma"}
+    ],
+    "does_not_apply_to": [
+      {
+        "histology": "Appendiceal carcinoma",
+        "reason": "Staged separately per AJCC due to distinct anatomy/biology and its own T category definitions.",
+        "see_instead": {"cancer_type": "Appendiceal Carcinoma", "file": "appendiceal.json"}
+      },
+      {
+        "histology": "Well-differentiated neuroendocrine tumor (carcinoid) of the colon/rectum",
+        "reason": "Staged using the separate AJCC neuroendocrine tumor (NET) staging system, not the colorectal carcinoma system.",
+        "see_instead": {"cancer_type": "Colorectal Neuroendocrine Tumor", "file": "colorectal_net.json"}
+      },
+      {
+        "histology": "Anal carcinoma",
+        "reason": "Anatomically and biologically distinct (HPV-related squamous cell carcinoma predominant); staged using the separate AJCC anal carcinoma system.",
+        "see_instead": {"cancer_type": "Anal Carcinoma", "file": "anal.json"}
+      },
+      {
+        "histology": "Gastrointestinal stromal tumor (GIST) of the colon/rectum",
+        "reason": "Mesenchymal tumor staged using the separate AJCC GIST staging system.",
+        "see_instead": {"cancer_type": "Gastrointestinal Stromal Tumor", "file": "gist.json"}
+      }
+    ]
+  },
+  "editions": {
+    "8th": {
+      "reference": "AJCC Cancer Staging Manual, 8th Edition (2017), Chapter 20: Colon and Rectum, pp. 251-274.",
+      "revision_date": "2017-12",
+      "staging_types": {
+        "clinical": {
+          "t_categories": [
+            {"code": "TX", "description": "Primary tumor cannot be assessed."},
+            {"code": "T0", "description": "No evidence of primary tumor."},
+            {"code": "Tis", "description": "Carcinoma in situ, intramucosal carcinoma (involvement of lamina propria with no extension through muscularis mucosae)."},
+            {"code": "T1", "description": "Tumor invades the submucosa (through the muscularis mucosae but not into the muscularis propria)."},
+            {"code": "T2", "description": "Tumor invades the muscularis propria."},
+            {"code": "T3", "description": "Tumor invades through the muscularis propria into pericolorectal tissues."},
+            {"code": "T4", "description": "Tumor invades the visceral peritoneum or invades or adheres to adjacent organ or structure"},
+            {"code": "T4a", "description": "Tumor invades through the visceral peritoneum (including gross perforation of the bowel through tumor and continuous invasion of tumor through areas of inflammation to the surface of the visceral peritoneum)."},
+            {"code": "T4b", "description": "Tumor directly invades or is adherent to other organs or structures."}
+          ],
+          "n_categories": [
+            {"code": "NX", "description": "Regional lymph nodes cannot be assessed."},
+            {"code": "N0", "description": "No regional lymph node metastasis."},
+            {"code": "N1", "description": "Metastasis in 1-3 regional lymph nodes (tumor in lymph node measuring ≥0.2 mm), or any number of tumor deposits are present and all identifiable lymph nodes are negative."},            
+            {"code": "N1a", "description": "One regional lymph node is positive."},
+            {"code": "N1b", "description": "Two or three regional lymph nodes are positive."},
+            {"code": "N1c", "description": "No regional lymph nodes are positive, but tumor deposits are present in the subserosa, mesentery, or non-peritonealized pericolic/perirectal tissues."},
+            {"code": "N2", "description": "Metastasis in 4 or more regional lymph nodes, without further subclassification into N2a or N2b as documented."},
+            {"code": "N2a", "description": "Four to six regional lymph nodes are positive."},
+            {"code": "N2b", "description": "Seven or more regional lymph nodes are positive."}
+          ],
+          "m_categories": [
+            {"code": "M0", "description": "No distant metastasis detected on imaging or exam; no evidence of tumor in distant organs/sites."},
+            {"code": "M1", "description": "Distant metastasis identified, without further subclassification into M1a, M1b, or M1c as documented."},
+            {"code": "M1a", "description": "Metastasis to one site or organ is identified without peritoneal metastasis."},
+            {"code": "M1b", "description": "Metastasis to two or more sites or organs is identified without peritoneal metastasis."},
+            {"code": "M1c", "description": "Metastasis to the peritoneal surface is identified alone or with other site or organ metastases."}
+          ],
+          "stage_groups": [
+            {"t": "Tis", "n": "N0", "m": "M0", "stage": "Stage 0"},
+            {"t": "T1", "n": "N0", "m": "M0", "stage": "Stage I"},
+            {"t": "T2", "n": "N0", "m": "M0", "stage": "Stage I"},
+            {"t": "T3", "n": "N0", "m": "M0", "stage": "Stage IIA"},
+            {"t": "T4a", "n": "N0", "m": "M0", "stage": "Stage IIB"},
+            {"t": "T4b", "n": "N0", "m": "M0", "stage": "Stage IIC"},
+            {"t": "T1", "n": "N1a", "m": "M0", "stage": "Stage IIIA"},
+            {"t": "T1", "n": "N1b", "m": "M0", "stage": "Stage IIIA"},
+            {"t": "T1", "n": "N1c", "m": "M0", "stage": "Stage IIIA"},
+            {"t": "T2", "n": "N1a", "m": "M0", "stage": "Stage IIIA"},
+            {"t": "T2", "n": "N1b", "m": "M0", "stage": "Stage IIIA"},
+            {"t": "T2", "n": "N1c", "m": "M0", "stage": "Stage IIIA"},
+            {"t": "T1", "n": "N2a", "m": "M0", "stage": "Stage IIIA"},
+            {"t": "T3", "n": "N1a", "m": "M0", "stage": "Stage IIIB"},
+            {"t": "T3", "n": "N1b", "m": "M0", "stage": "Stage IIIB"},
+            {"t": "T3", "n": "N1c", "m": "M0", "stage": "Stage IIIB"},
+            {"t": "T4a", "n": "N1a", "m": "M0", "stage": "Stage IIIB"},
+            {"t": "T4a", "n": "N1b", "m": "M0", "stage": "Stage IIIB"},
+            {"t": "T4a", "n": "N1c", "m": "M0", "stage": "Stage IIIB"},
+            {"t": "T2", "n": "N2a", "m": "M0", "stage": "Stage IIIB"},
+            {"t": "T3", "n": "N2a", "m": "M0", "stage": "Stage IIIB"},
+            {"t": "T1", "n": "N2b", "m": "M0", "stage": "Stage IIIB"},
+            {"t": "T2", "n": "N2b", "m": "M0", "stage": "Stage IIIB"},
+            {"t": "T4a", "n": "N2a", "m": "M0", "stage": "Stage IIIC"},
+            {"t": "T3", "n": "N2b", "m": "M0", "stage": "Stage IIIC"},
+            {"t": "T4a", "n": "N2b", "m": "M0", "stage": "Stage IIIC"},
+            {"t": "T4b", "n": "N1a", "m": "M0", "stage": "Stage IIIC"},
+            {"t": "T4b", "n": "N1b", "m": "M0", "stage": "Stage IIIC"},
+            {"t": "T4b", "n": "N1c", "m": "M0", "stage": "Stage IIIC"},
+            {"t": "T4b", "n": "N2a", "m": "M0", "stage": "Stage IIIC"},
+            {"t": "T4b", "n": "N2b", "m": "M0", "stage": "Stage IIIC"},
+            {"t": "Any", "n": "Any", "m": "M1a", "stage": "Stage IVA"},
+            {"t": "Any", "n": "Any", "m": "M1b", "stage": "Stage IVB"},
+            {"t": "Any", "n": "Any", "m": "M1c", "stage": "Stage IVC"}
+          ]
+        },
+        "pathological": {
+          "t_categories": [
+            {"code": "TX", "description": "Primary tumor cannot be assessed."},
+            {"code": "T0", "description": "No evidence of primary tumor."},
+            {"code": "Tis", "description": "Carcinoma in situ, intramucosal carcinoma (involvement of lamina propria with no extension through muscularis mucosae)."},
+            {"code": "T1", "description": "Tumor invades the submucosa (through the muscularis mucosae but not into the muscularis propria)."},
+            {"code": "T2", "description": "Tumor invades the muscularis propria."},
+            {"code": "T3", "description": "Tumor invades through the muscularis propria into pericolorectal tissues."},
+            {"code": "T4", "description": "Tumor invades through the visceral peritoneum and/or directly invades or is adherent to other organs or structures, without further subclassification into T4a or T4b as documented."},
+            {"code": "T4a", "description": "Tumor invades through the visceral peritoneum (including gross perforation of the bowel through tumor and continuous invasion of tumor through areas of inflammation to the surface of the visceral peritoneum)."},
+            {"code": "T4b", "description": "Tumor directly invades or is adherent to other organs or structures, confirmed on microscopic examination of the resection specimen, or, for tumors adherent to other organs/structures macroscopically, microscopic confirmation of invasion beyond the layer of the bowel wall."}
+          ],
+          "n_categories": [
+            {"code": "NX", "description": "Regional lymph nodes cannot be assessed."},
+            {"code": "N0", "description": "No regional lymph node metastasis, confirmed on histologic examination of the resected specimen (recommended minimum of 12 nodes examined)."},
+            {"code": "N1", "description": "Metastasis in 1-3 regional lymph nodes (tumor in lymph node measuring ≥0.2 mm), or any number of tumor deposits are present and all identifiable lymph nodes are negative."},  
+            {"code": "N1a", "description": "One regional lymph node is positive on histologic examination."},
+            {"code": "N1b", "description": "Two or three regional lymph nodes are positive on histologic examination."},
+            {"code": "N1c", "description": "No regional lymph nodes are positive, but tumor deposits are present in the subserosa, mesentery, or non-peritonealized pericolic/perirectal tissues, identified on histologic examination."},
+            {"code": "N2", "description": "Metastasis in 4 or more regional lymph nodes, without further subclassification into N2a or N2b as documented."},
+            {"code": "N2a", "description": "Four to six regional lymph nodes are positive on histologic examination."},
+            {"code": "N2b", "description": "Seven or more regional lymph nodes are positive on histologic examination."}
+          ],
+          "m_categories": [
+            {"code": "M0", "description": "No distant metastasis identified on pathologic review (pM0 is not assignable from resection of the primary alone without pathologic confirmation elsewhere; used when biopsy/resection of a distant site confirms absence, otherwise M category is derived clinically)."},
+            {"code": "M1", "description": "Distant metastasis identified, without further subclassification into M1a, M1b, or M1c as documented."},
+            {"code": "M1a", "description": "Metastasis to one site or organ is identified, confirmed microscopically, without peritoneal metastasis."},
+            {"code": "M1b", "description": "Metastasis to two or more sites or organs is identified, confirmed microscopically, without peritoneal metastasis."},
+            {"code": "M1c", "description": "Metastasis to the peritoneal surface is identified, confirmed microscopically, alone or with other site or organ metastases."}
+          ],
+          "stage_groups": [
+            {"t": "Tis", "n": "N0", "m": "M0", "stage": "Stage 0"},
+            {"t": "T1", "n": "N0", "m": "M0", "stage": "Stage I"},
+            {"t": "T2", "n": "N0", "m": "M0", "stage": "Stage I"},
+            {"t": "T3", "n": "N0", "m": "M0", "stage": "Stage IIA"},
+            {"t": "T4a", "n": "N0", "m": "M0", "stage": "Stage IIB"},
+            {"t": "T4b", "n": "N0", "m": "M0", "stage": "Stage IIC"},
+            {"t": "T1", "n": "N1a", "m": "M0", "stage": "Stage IIIA"},
+            {"t": "T1", "n": "N1b", "m": "M0", "stage": "Stage IIIA"},
+            {"t": "T1", "n": "N1c", "m": "M0", "stage": "Stage IIIA"},
+            {"t": "T2", "n": "N1a", "m": "M0", "stage": "Stage IIIA"},
+            {"t": "T2", "n": "N1b", "m": "M0", "stage": "Stage IIIA"},
+            {"t": "T2", "n": "N1c", "m": "M0", "stage": "Stage IIIA"},
+            {"t": "T1", "n": "N2a", "m": "M0", "stage": "Stage IIIA"},
+            {"t": "T3", "n": "N1a", "m": "M0", "stage": "Stage IIIB"},
+            {"t": "T3", "n": "N1b", "m": "M0", "stage": "Stage IIIB"},
+            {"t": "T3", "n": "N1c", "m": "M0", "stage": "Stage IIIB"},
+            {"t": "T4a", "n": "N1a", "m": "M0", "stage": "Stage IIIB"},
+            {"t": "T4a", "n": "N1b", "m": "M0", "stage": "Stage IIIB"},
+            {"t": "T4a", "n": "N1c", "m": "M0", "stage": "Stage IIIB"},
+            {"t": "T2", "n": "N2a", "m": "M0", "stage": "Stage IIIB"},
+            {"t": "T3", "n": "N2a", "m": "M0", "stage": "Stage IIIB"},
+            {"t": "T1", "n": "N2b", "m": "M0", "stage": "Stage IIIB"},
+            {"t": "T2", "n": "N2b", "m": "M0", "stage": "Stage IIIB"},
+            {"t": "T4a", "n": "N2a", "m": "M0", "stage": "Stage IIIC"},
+            {"t": "T3", "n": "N2b", "m": "M0", "stage": "Stage IIIC"},
+            {"t": "T4a", "n": "N2b", "m": "M0", "stage": "Stage IIIC"},
+            {"t": "T4b", "n": "N1a", "m": "M0", "stage": "Stage IIIC"},
+            {"t": "T4b", "n": "N1b", "m": "M0", "stage": "Stage IIIC"},
+            {"t": "T4b", "n": "N1c", "m": "M0", "stage": "Stage IIIC"},
+            {"t": "T4b", "n": "N2a", "m": "M0", "stage": "Stage IIIC"},
+            {"t": "T4b", "n": "N2b", "m": "M0", "stage": "Stage IIIC"},
+            {"t": "Any", "n": "Any", "m": "M1a", "stage": "Stage IVA"},
+            {"t": "Any", "n": "Any", "m": "M1b", "stage": "Stage IVB"},
+            {"t": "Any", "n": "Any", "m": "M1c", "stage": "Stage IVC"}
+          ]
+        }
+      }
+    }
+  }
+}

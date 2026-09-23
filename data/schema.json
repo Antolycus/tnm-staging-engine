@@ -1,0 +1,132 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://tnm-staging-engine/schema/cancer-config.json",
+  "title": "AJCC Cancer Staging Configuration",
+  "_notes": "ROOT LEVEL: Defines ONE cancer type's staging rules across multiple AJCC editions and staging types (clinical vs pathological). To add a new cancer, copy this structure and fill in 'editions' with at least one edition key (e.g. '8th'). To add a new edition, add a new key under 'editions' without touching existing ones. 'applicability' lives at root (not per-edition) because histologic scope generally does not change between AJCC editions. NOTE: this schema validates STRUCTURE only. Cross-field checks (stage_groups row uniqueness, wildcard ordering, t/n/m codes referencing a defined category) are NOT expressible in JSON Schema draft-07 and are enforced separately by tests/validate_schema.py.",
+  "type": "object",
+  "required": ["cancer_type", "applicability", "editions"],
+  "additionalProperties": false,
+  "properties": {
+    "cancer_type": {
+      "type": "string",
+      "description": "Human-readable cancer type name, e.g. 'Colorectal Carcinoma'."
+    },
+    "applicability": {
+      "type": "object",
+      "_notes": "APPLICABILITY: Which histologic diagnoses this config is valid for / excluded from. Shown to the user as a confirmation step when they select this cancer type, BEFORE T/N/M selection.",
+      "required": ["applies_to", "does_not_apply_to"],
+      "additionalProperties": false,
+      "properties": {
+        "applies_to": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["histology"],
+            "additionalProperties": false,
+            "properties": {
+              "histology": {"type": "string", "description": "Histologic diagnosis this config is valid for, e.g. 'Adenocarcinoma'."},
+              "notes": {"type": "string", "description": "Optional clarifying note, e.g. subtype specifics."}
+            }
+          }
+        },
+        "does_not_apply_to": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["histology", "reason"],
+            "additionalProperties": false,
+            "properties": {
+              "histology": {"type": "string", "description": "Histologic diagnosis explicitly excluded, e.g. 'Appendiceal carcinoma'."},
+              "reason": {"type": "string", "description": "Why it's excluded."},
+              "see_instead": {
+                "type": "object",
+                "description": "Optional pointer to the correct cancer config file/type. May reference a file that does not exist yet in /data -- engine must handle that gracefully.",
+                "additionalProperties": false,
+                "properties": {
+                  "cancer_type": {"type": "string", "description": "cancer_type name of the correct config, e.g. 'Appendiceal Carcinoma'."},
+                  "file": {"type": "string", "description": "Filename of the correct config in /data, e.g. 'appendiceal.json'."}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "editions": {
+      "type": "object",
+      "description": "Keyed by AJCC edition string, e.g. '8th', '9th'. Each edition is fully self-contained (no inheritance between editions).",
+      "additionalProperties": {
+        "$ref": "#/definitions/edition"
+      }
+    }
+  },
+  "definitions": {
+    "edition": {
+      "type": "object",
+      "_notes": "EDITION LEVEL: One AJCC manual edition for this cancer type. 'revision_date' disambiguates corrigenda/reprints within the same numbered edition (e.g. 8th edition 2017 vs. 2018 reprint corrections).",
+      "required": ["staging_types"],
+      "additionalProperties": false,
+      "properties": {
+        "reference": {
+          "type": "string",
+          "description": "Bibliographic citation, e.g. 'AJCC Cancer Staging Manual, 8th Edition, Chapter 20, pp. 251-274.'"
+        },
+        "revision_date": {
+          "type": "string",
+          "description": "Publication or corrigendum date this data reflects, e.g. '2017-12' or '2018 reprint with corrections'. Optional but recommended to disambiguate revisions within one numbered edition."
+        },
+        "staging_types": {
+          "type": "object",
+          "required": ["clinical", "pathological"],
+          "additionalProperties": false,
+          "properties": {
+            "clinical": {"$ref": "#/definitions/staging_type"},
+            "pathological": {"$ref": "#/definitions/staging_type"}
+          }
+        }
+      }
+    },
+    "staging_type": {
+      "type": "object",
+      "_notes": "STAGING TYPE LEVEL: Independent T/N/M categories and stage groupings for 'clinical' (cTNM) or 'pathological' (pTNM). Duplicate full content even if identical to the other type. 'prefix_modifiers' documents which AJCC prefix letters (y = post-neoadjuvant, r = recurrent, a = autopsy, c/p already implied by staging_type) are expected to appear on codes in THIS block; it is documentation only, not enforced against 'code' strings yet.",
+      "required": ["t_categories", "n_categories", "m_categories", "stage_groups"],
+      "additionalProperties": false,
+      "properties": {
+        "prefix_modifiers": {
+          "type": "array",
+          "items": {"type": "string", "enum": ["y", "r", "a"]},
+          "description": "Optional. Which AJCC prefix modifiers apply to codes in this staging_type, e.g. ['y'] for a post-neoadjuvant ypTNM block."
+        },
+        "t_categories": {"type": "array", "items": {"$ref": "#/definitions/category"}},
+        "n_categories": {"type": "array", "items": {"$ref": "#/definitions/category"}},
+        "m_categories": {"type": "array", "items": {"$ref": "#/definitions/category"}},
+        "stage_groups": {
+          "type": "array",
+          "_notes": "STAGE_GROUPS: Each row maps one (t, n, m) combination to a final stage. Use the exact literal 'Any' (capital A) to match all values of that category. More-specific rows must precede any wildcard row that would also match them -- checked by tests/validate_schema.py, not by this schema. Every non-'Any' t/n/m value here must also exist as a 'code' in the corresponding t_categories/n_categories/m_categories list -- also checked by tests/validate_schema.py.",
+          "items": {
+            "type": "object",
+            "required": ["t", "n", "m", "stage"],
+            "additionalProperties": false,
+            "properties": {
+              "t": {"type": "string", "pattern": "^(Any|[A-Za-z0-9][A-Za-z0-9]*(\\s\\([A-Za-z]+\\))?)$", "description": "T category code or the exact literal 'Any'."},
+              "n": {"type": "string", "pattern": "^(Any|[A-Za-z0-9][A-Za-z0-9]*(\\s\\([A-Za-z]+\\))?)$", "description": "N category code or the exact literal 'Any'."},
+              "m": {"type": "string", "pattern": "^(Any|[A-Za-z0-9][A-Za-z0-9]*(\\s\\([A-Za-z]+\\))?)$", "description": "M category code or the exact literal 'Any'."},
+              "stage": {"type": "string", "description": "Resulting AJCC stage group, e.g. 'Stage IIIB'."}
+            }
+          }
+        }
+      }
+    },
+    "category": {
+      "type": "object",
+      "_notes": "CATEGORY: One valid T, N, or M code with its full AJCC definition text.",
+      "required": ["code", "description"],
+      "additionalProperties": false,
+      "properties": {
+        "code": {"type": "string", "description": "Short code, e.g. 'T1b', 'N2a', 'M1c', 'Tis (LAM)', 'ypT1'."},
+        "description": {"type": "string", "description": "Full AJCC definition of this code."},
+        "reference": {"type": "string", "description": "Optional override citation if this code's definition comes from a different source/page than the edition-level reference."}
+      }
+    }
+  }
+}
